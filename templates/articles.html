@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+      <div class="col-lg-8">
+        <h2>Makaleler</h2> 
+      </div> 
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-10 offset-md-3">
+    <div class="col-lg-8">
+      
+      <style type="text/css">
+
+  
+    
+        body,html{
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: white !important;
+        }
+    
+        .searchbar{
+        margin-bottom: auto;
+        margin-top: -50px;
+        margin-left: 130px;
+        height: 45px;
+        background-color: #353b48;
+        border-radius: 30px;
+        padding: 10px;
+        }
+    
+        .search_input{
+        color: white;
+        border: 0;
+        outline: 0;
+        background: none;
+        width: 0;
+        caret-color:transparent;
+        line-height: 20px;
+        transition: width 0.4s linear;
+        }
+    
+        .searchbar:hover > .search_input{
+        padding: 0 10px;
+        width: 300px;
+        caret-color:red;
+        transition: width 0.4s linear;
+        }
+    
+        .searchbar:hover > .search_icon{
+        background: white;
+        color: #e74c3c;
+        }
+    
+        .search_icon{
+        height: 27px;
+        width: 27px;
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        color:rgb(0, 0, 0);
+        text-decoration:none;
+        }    </style>
+        
+        
+        <link  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+     
+    <form   class="d-flex justify-content-center h-100">
+       {% csrf_token %}
+    
+        <div class="searchbar">
+            <input class="search_input" type="text" name="keyword" placeholder="Ara...">
+            
+            <button type="submit" class="search_icon" ><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <br>
+
+
+    </div> 
+  </div>
+</div>
+
+
+<hr>
+{% if  articles%}
+{% for article in articles  %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+  
+      <!-- Title -->
+      
+       <a href="/articles/article/{{article.id}}"><h3 class="mt-4">{{article.title}}</h3></a>  
+  
+      <!-- Author -->
+      <p class="lead">
+        
+        {{article.author}} tarafından eklendi 
+      </p>
+  
+      <hr>
+  
+      <!-- Date/Time -->
+      <p>{{article.created_date}}</p>
+  
+      <hr>
+  
+      <!-- Preview Image -->
+      {% if  article.article_image %}
+      <a href="/articles/article/{{article.id}}"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt=""></a>  
+      
+      
+      {% endif %}
+      
+      <hr>
+  
+      <!-- Post Content -->
+      <p class="lead">{{article.content|safe|truncatewords:50}}
+
+      </p>
+      <a style="float: right;" class="btn btn-danger" href="/articles/article/{{article.id}}">Devamını oku</a>
+      <hr>
+  
+    </div>
+  
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="alert alert-danger">
+    Bu makalede her hangi bir makale bulunmuyor
+
+</div>
+{% endif %}
+
+{% endblock body %}
+
